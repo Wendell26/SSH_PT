@@ -1,0 +1,33 @@
+#!/bin/bash
+clear
+ echo "Inicializador SSH"
+ echo -e "\e[0;34m [*] Esse script é uma automação do SSH."
+ echo -e "\e[0;33m [*] Instalando o OpenSSH..."
+pkill apt
+pkg install -y openssl openssh >/dev/null 2>&1
+pkill apt
+ echo -e "\e[0;32m [*] OpenSSH instalado!"
+echo -e "\e[0;97m"
+ echo "1. Modo transmissor"
+ echo "2. Modo receptor"
+ echo "3. Sair do ISSH"
+ read -p "Selecione o modo de operação: " oper
+case $oper in
+   1) echo -e "\e[0;34m [*] Username: $(whoami)"
+      echo -e "\e[0;32m [*] A seguir, crie a senha do servidor."
+passwd
+      echo -e "\e[0;34m [*] Inicializando servidor..."
+sshd
+      echo -e "\e[0;32m [*] Servidor pronto!"
+   ;;
+   2) read -p "[*] Username: " user
+      read -p "[*] Endereço IP ou nome do host: " ip
+      read -p "[*] Porta: " port
+      echo -e "\e[0;97m [*] Na próxima tela, digite "yes" e a senha do $user@$ip."
+ssh $user@$ip -p $port
+   ;;
+   3) echo -e "\e[0;33m [*] Bye!"
+   ;;
+   *) echo -e "\e[0;31m [!] Opção inválida."
+   ;;
+esac
